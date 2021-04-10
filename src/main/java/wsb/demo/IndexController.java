@@ -16,4 +16,10 @@ public class IndexController {
         model.addAttribute("id",id);
         return "index";
     }
+
+    @GetMapping("/contact")
+    public String contact(){
+        return "contact";
+    }
+
 }
