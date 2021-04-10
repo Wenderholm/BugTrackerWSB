@@ -7,19 +7,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
+//
+//    @GetMapping("/")
+//    public String index(@RequestParam(name="id") String id, Model model){
+//        model.addAttribute("name", "myszojelen");
+//        double number = 12+23+31;
+//        model.addAttribute("number", number );
+//        model.addAttribute("id",id);
+//        return "index";
+//    }
+//
+//    @GetMapping("/contact")
+//    public String contact(){
+//        return "contact";
+//    }
 
     @GetMapping("/")
-    public String index(@RequestParam(name="id") String id, Model model){
-        model.addAttribute("name", "myszojelen");
-        double number = 12+23+31;
-        model.addAttribute("number", number );
-        model.addAttribute("id",id);
+    public String index() {
         return "index";
     }
 
     @GetMapping("/contact")
-    public String contact(){
+    public String contact() {
         return "contact";
     }
+
+
 
 }

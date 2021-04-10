@@ -1,4 +1,4 @@
-package wsb.demo;
+package wsb.demo.config;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
