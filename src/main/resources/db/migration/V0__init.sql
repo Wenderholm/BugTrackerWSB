@@ -1,0 +1,1 @@
+-- plik potrzebny do startu flywy

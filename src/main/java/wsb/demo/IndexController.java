@@ -21,10 +21,12 @@ public class IndexController {
 //    public String contact(){
 //        return "contact";
 //    }
+    private final static String INDEX_VIEW_NAME = "index";
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public String index(Model model) {
+        model.addAttribute("isAdmin",true);
+        return INDEX_VIEW_NAME;
     }
 
     @GetMapping("/contact")
