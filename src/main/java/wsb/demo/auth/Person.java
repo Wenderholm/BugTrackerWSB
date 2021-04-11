@@ -37,5 +37,14 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     Set<Authority> authorities;
 
+    public Person(String username, String password, String name) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }

@@ -5,20 +5,26 @@ import org.springframework.stereotype.Service;
 import wsb.demo.auth.Authority;
 import wsb.demo.auth.AuthorityName;
 import wsb.demo.auth.AuthorityRepository;
+import wsb.demo.auth.PersonService;
 
 @Service
 public class Bootstrap implements InitializingBean {
 
     private final AuthorityRepository authorityRepository;
+    private final PersonService personService;
 
-    public Bootstrap(AuthorityRepository authorityRepository) {
+    public Bootstrap(AuthorityRepository authorityRepository, PersonService personService) {
         this.authorityRepository = authorityRepository;
+        this.personService = personService;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-            prepareAuthoritues();
-            prepareAdmin();
+        System.out.println("Rozpoczynamy przygotowywanie aplikacji...");
+
+        prepareAuthoritues();
+
+        personService.prepareAdminUser();
     }
 
     private void prepareAdmin() {

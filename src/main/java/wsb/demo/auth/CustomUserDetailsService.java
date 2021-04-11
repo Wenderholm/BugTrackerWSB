@@ -34,4 +34,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         // TODO: Pobierz uprawnienia użytkownika
         return new User(person.username, person.password, new ArrayList<>());
     }
-}}
+}
