@@ -47,4 +47,7 @@ public class Person {
         this.password = password;
     }
 
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 }

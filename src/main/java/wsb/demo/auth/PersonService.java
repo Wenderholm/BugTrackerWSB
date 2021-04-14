@@ -4,9 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.List;
+
 @Service
 public class PersonService {
 
+
+    private final AuthorityRepository authorityRepository;
     private final PersonRepository personRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -16,17 +21,13 @@ public class PersonService {
     @Value("${my.admin.password}")
     private String myAdminPassword;
 
-    public PersonService(PersonRepository personRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public PersonService(AuthorityRepository authorityRepository, PersonRepository personRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.authorityRepository = authorityRepository;
         this.personRepository = personRepository;
-
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public void prepareAdminUser() {
-        // 1. Nie twórz użytkownika, jeśli już istnieje
-        // 2. Hash hasła
-        // 3. Dodaj rolę ROLE_ADMIN
-
         if (personRepository.findByUsername(myAdminUsername) != null) {
             System.out.println("Użytkownik " + myAdminUsername + " już istnieje. Przerywamy tworzenie.");
             return;
@@ -35,12 +36,19 @@ public class PersonService {
         System.out.println("Tworzymy administratora: " + myAdminUsername + "...");
 
         Person person = new Person(myAdminUsername, myAdminPassword, "Admin");
+
+        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+        person.setAuthorities(new HashSet<>(authorities));
+
         savePerson(person);
     }
 
-    private void savePerson(Person person) {
+    protected void savePerson(Person person) {
         String hashedPassword = bCryptPasswordEncoder.encode(person.password);
         person.setPassword(hashedPassword);
         personRepository.save(person);
+    }
+    List<Person> findAllUsers() {
+        return personRepository.findAll();
     }
 }

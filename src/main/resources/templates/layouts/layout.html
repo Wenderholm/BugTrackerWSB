@@ -17,6 +17,30 @@ xmlns:layout="https://ultraq.github.io/thymeleaf-layout-dialect">
     <!--do przeciwczenia wiadomości alerty-->
     <!--    <div th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">...</div>-->
     <div layout:fragment="content">
+        <h1>
+            Użytkownicy
+        </h1>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Login
+                </th>
+                <th>
+                    Nazwa
+                </th>
+            </tr>
+            </thead>
+            <tr th:each="person : ${people}">
+                <td th:text="${person.id}"></td>
+                <td th:text="${person.username}"></td>
+                <td th:text="${person.name}"></td>
+            </tr>
+        </table>
 
     </div>
     <div th:insert="fragments/footer :: ${isAdmin} ? 'footer-admin' :  'footer'">&copy; 2014 The Static Templates</div>
