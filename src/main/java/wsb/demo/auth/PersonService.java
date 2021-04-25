@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -34,21 +35,27 @@ public class PersonService {
         }
 
         System.out.println("Tworzymy administratora: " + myAdminUsername + "...");
-
-        Person person = new Person(myAdminUsername, myAdminPassword, "Admin");
-
+        Person person = new Person(myAdminUsername, myAdminPassword, "Admin",true,"admin@admin.pl", "777666111");
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
         person.setAuthorities(new HashSet<>(authorities));
-
         savePerson(person);
     }
+
 
     protected void savePerson(Person person) {
         String hashedPassword = bCryptPasswordEncoder.encode(person.password);
         person.setPassword(hashedPassword);
         personRepository.save(person);
     }
+
+    public void softDelete(Person person){
+        person.setEnable(false);
+        personRepository.save(person);
+    }
+
     List<Person> findAllUsers() {
         return personRepository.findAll();
     }
+
+
 }

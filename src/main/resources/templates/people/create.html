@@ -49,6 +49,30 @@
                            class="form-control"/>
                 </div>
             </div>
+            <div class="mb-3">
+                <div>
+                    <label for="mail">Email</label>
+                </div>
+                <div>
+                    <input id="mail"
+                           type="text"
+                           th:field="*{mail}"
+                           placeholder="Email"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label for="phone">Numer telefonu</label>
+                </div>
+                <div>
+                    <input id="phone"
+                           type="number"
+                           th:field="*{phone}"
+                           placeholder="Numer telefonu"
+                           class="form-control"/>
+                </div>
+            </div>
 
             <div class="mb-3">
                 <div>
@@ -62,6 +86,16 @@
                            class="form-control"/>
                 </div>
             </div>
+            <p>
+                <label>Roles:
+                    <input type="checkbox" name="roles"
+                           th:each="role : ${allAuthorities}"
+                           th:text="${role.name}"
+                           th:value="${role.id}"
+                           th:field="*{authorities}"
+                    />
+                </label>
+            </p>
         </div>
 
         <div>
