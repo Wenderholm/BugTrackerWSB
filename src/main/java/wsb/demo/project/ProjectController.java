@@ -36,7 +36,7 @@ public class ProjectController {
     }
     @PostMapping(value = "/save")
     @Secured("ROLE_MANAGE_PROJECT")
-    ModelAndView createNewUser(@Valid @ModelAttribute Project project) {
+    ModelAndView createNewProject(@Valid @ModelAttribute Project project) {
         ModelAndView modelAndView = new ModelAndView();
         projectRepository.save(project);
         modelAndView.setViewName("redirect:/project/");
