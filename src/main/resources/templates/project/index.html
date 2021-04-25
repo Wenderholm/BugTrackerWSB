@@ -28,6 +28,9 @@
                 Nazwa
             </th>
             <th>
+                Opis
+            </th>
+            <th>
                 Edit
             </th>
             <th>
@@ -35,19 +38,16 @@
             </th>
         </tr>
         </thead>
-<!--        <tr th:each="person : ${people}">-->
-<!--            &lt;!&ndash;            <td th:text="${person.id}"></td>&ndash;&gt;-->
-<!--            <td th:text="${person.username}"></td>-->
-<!--            <td th:text="${person.name}"></td>-->
-<!--            &lt;!&ndash;            <td><a th:href="@{/people/edit}" class="btn btn-danger"><i class="fas fa-user-edit ml-2"></i></a></td>&ndash;&gt;-->
-<!--            <td><a th:href="@{/people/edit/{id}(id=${person.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->
-<!--            &lt;!&ndash;            <td><a th:href="@{/delete}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>&ndash;&gt;-->
-<!--            <td><a th:href="@{/people/delete/{id}(id=${person.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>-->
-<!--        </tr>-->
+        <tr th:each="proj : ${project}">
+            <td th:text="${proj.name}"></td>
+            <td th:text="${proj.description}"></td>
+            <td><a th:href="@{/project/edit/{id}(id=${proj.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+            <td><a th:href="@{/project/delete/{id}(id=${proj.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
+        </tr>
     </table>
 
     <div>
-        <a th:href="@{'/people/create/'}"
+        <a th:href="@{'/project/create/'}"
            th:text="Dodaj"
            class="btn btn-primary"></a>
 
