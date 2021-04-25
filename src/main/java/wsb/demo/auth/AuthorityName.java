@@ -3,7 +3,8 @@ package wsb.demo.auth;
 public enum AuthorityName {
      ROLE_USERS_TAB("Dostęp do zakładki użytkownicy"),
      ROLE_CREATE_USER("Zarządzanie użytkownikami-towrzenie"),
-     ROLE_DELETE_USER("Zarządzanie użytkownikami-usuwanie");
+     ROLE_DELETE_USER("Zarządzanie użytkownikami-usuwanie"),
+     ROLE_MANAGE_PROJECT("Zarządzanie projektami");
 
 
 
