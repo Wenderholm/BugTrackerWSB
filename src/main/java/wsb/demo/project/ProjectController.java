@@ -5,20 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import wsb.demo.auth.Authority;
-import wsb.demo.auth.Person;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
 
     private final ProjectRepository projectRepository;
+    private final ProjectService projectService;
 
-    public ProjectController(ProjectRepository projectRepository) {
+    public ProjectController(ProjectRepository projectRepository, ProjectService projectService) {
         this.projectRepository = projectRepository;
+        this.projectService = projectService;
     }
 
     @GetMapping("/")
@@ -64,5 +63,17 @@ public class ProjectController {
         modelAndView.setViewName("redirect:/project/");
         return modelAndView;
     }
+
+
+    @GetMapping("/delete/{id}")
+    @Secured("ROLE_MANAGE_PROJECT")
+    ModelAndView deleteUser(@PathVariable("id") long id, Project project) {
+        ModelAndView modelAndView = new ModelAndView();
+//        personRepository.delete(personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
+        projectService.softDelete(projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
+        modelAndView.setViewName("redirect:/project/");
+        return modelAndView;
+    }
+
 
 }
