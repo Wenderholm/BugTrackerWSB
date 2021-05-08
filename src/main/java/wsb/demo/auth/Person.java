@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import wsb.demo.validators.UniqueUsername;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,12 +22,20 @@ public class Person {
     @GeneratedValue
     Long id;
 
+    @NotEmpty
+    @Size(min =5, max=100)
+    @UniqueUsername
     @Column(nullable = false, unique = true)
     String username;
 
+    @NotEmpty
     @Column(nullable = false)
     String password;
 
+    @Transient
+    String repeatedPassword;
+
+    @NotEmpty
     @Column(nullable = false)
     String name;
 

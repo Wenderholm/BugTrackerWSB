@@ -44,11 +44,15 @@ public class PersonController {
 
     @PostMapping(value = "/save")
     @Secured("ROLE_CREATE_USER")
-    ModelAndView createNewUser(@Valid @ModelAttribute Person person) {
+    ModelAndView createNewUser(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
+        if(bindingResult.hasErrors()){
+            modelAndView.setViewName("people/create");
+            List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+            modelAndView.addObject("allAuthorities", authorities);
+            return modelAndView;
+        }
         personService.savePerson(person);
-        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
-        modelAndView.addObject("allAuthorities", authorities);
         modelAndView.setViewName("redirect:/people/");
         return modelAndView;
     }
