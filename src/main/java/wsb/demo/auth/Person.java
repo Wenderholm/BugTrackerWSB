@@ -5,8 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import wsb.demo.validators.UniqueUsername;
+import wsb.demo.validators.ValidPasswords;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -16,6 +18,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@ValidPasswords
+@UniqueUsername
 public class Person {
 
     @Id
@@ -24,11 +28,10 @@ public class Person {
 
     @NotEmpty
     @Size(min =5, max=100)
-    @UniqueUsername
     @Column(nullable = false, unique = true)
     String username;
 
-    @NotEmpty
+
     @Column(nullable = false)
     String password;
 
@@ -43,9 +46,13 @@ public class Person {
     @ColumnDefault(value = "true")
     Boolean enable = true;
 
+    @Email
+    @NotEmpty
     @Column(nullable = false)
     String mail;
 
+    @NotEmpty
+    @Size(min =5, max=10)
     @Column(nullable = false)
     String phone;
 

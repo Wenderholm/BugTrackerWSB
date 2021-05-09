@@ -18,10 +18,8 @@
 </head>
 <body>
 <section class="container">
-    <h1>
-        Stwórz użytkownika
-    </h1>
 
+    <h2 class="mt-4 mb-5 d-flex justify-content-center">TWORZENIE PROJEKTU</h2>
     <form th:action="@{/project/save}" th:object="${project}" method="post">
         <div class="row">
             <div class="mb-3">
@@ -33,7 +31,11 @@
                            type="text"
                            th:field="*{name}"
                            placeholder="Nazwa"
-                           class="form-control"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('name') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('name')}"
+                           th:errors="*{name}"></small>
                 </div>
             </div>
 
@@ -46,7 +48,11 @@
                            type="text"
                            th:field="*{code}"
                            placeholder="Kod"
-                           class="form-control"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('code') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('code')}"
+                           th:errors="*{code}"></small>
                 </div>
             </div>
             <div class="mb-3">
@@ -58,14 +64,21 @@
                            type="text"
                            th:field="*{description}"
                            placeholder="Opis"
-                           class="form-control"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('description') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('description')}"
+                           th:errors="*{description}"></small>
                 </div>
             </div>
 
         </div>
 
         <div>
-            <button type="submit" class="btn btn-primary" th:text="Zapisz"></button>
+            <button type="submit" class=" btn btn-primary" th:text="Zapisz"></button>
+            <a th:href="@{'/project/'}"
+               th:text="Anuluj"
+               class="btn btn-primary"></a>
         </div>
     </form>
 </section>

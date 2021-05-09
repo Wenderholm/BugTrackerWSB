@@ -42,12 +42,10 @@
         </tr>
         </thead>
         <tr th:each="person : ${people}">
-<!--            <td th:text="${person.id}"></td>-->
+
             <td th:text="${person.username}"></td>
             <td th:text="${person.name}"></td>
-<!--            <td><a th:href="@{/people/edit}" class="btn btn-danger"><i class="fas fa-user-edit ml-2"></i></a></td>-->
             <td><a th:href="@{/people/edit/{id}(id=${person.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
-<!--            <td><a th:href="@{/delete}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>-->
             <td><a th:href="@{/people/delete/{id}(id=${person.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
         </tr>
     </table>

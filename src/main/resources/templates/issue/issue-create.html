@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{application.name}"></title>
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet"
+          type="text/css"/>
+</head>
+<body>
+<section class="container">
+    <h2 class=" mt-4 mb-5 d-flex justify-content-center">DODAWANIE ZGŁOSZENIA</h2>
+    <form th:action="@{/issue/save}" th:object="${issue}" method="post">
+        <div class="form-row col-12">
+            <div class="form-group col-md-3">
+                <select th:field="*{project}"
+                        class="form-control">
+
+                    <option th:value="${null}" th:text="#{project.placeholder}">
+                    </option>
+                    <option th:each="project : ${projects}"
+                            th:value="${project.id}"
+                            th:text="${project.name}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-7">
+                <input id="title"
+                       type="text"
+                       th:field="*{title}"
+                       placeholder="Tytuł"
+                       th:class="'form-control ' + ${#fields.hasErrors('title') ? 'is-invalid' : ''}">
+
+                <small class="text-danger"
+                       th:if="${#fields.hasErrors('title')}"
+                       th:errors="*{title}"></small>
+            </div>
+            <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-default">Update</button>
+            </div>
+            <div class="form-group col-12">
+                <textarea id="content"
+                          type="text"
+                          th:field="*{content}"
+                          placeholder="Opis"
+                          rows="6"
+                          th:class="'form-control ' + ${#fields.hasErrors('title') ? 'is-invalid' : ''}">
+                </textarea>
+                <small class="text-danger"
+                       th:if="${#fields.hasErrors('title')}"
+                       th:errors="*{title}"></small>
+            </div>
+        </div>
+        <div class="form-row col-12">
+            <div class="col-3">
+                <p class="d-flex justify-content-center">Typ</p>
+                <select th:field="*{type}"
+                        class="form-control">
+
+                    <option th:value="${null}" th:text="#{type.placeholder}"></option>
+                    <option th:each="type : ${types}"
+                            th:value="${type}"
+                            th:text="${#messages.msg('type.' + type)}"></option>
+                </select>
+            </div>
+            <div class="col-3">
+                <p class="d-flex justify-content-center">Priorytet</p>
+                <select th:field="*{priority}"
+                        class="form-control">
+
+                    <option th:value="${null}" th:text="#{priority.placeholder}"></option>
+                    <option th:each="priority : ${priorities}"
+                            th:value="${priority}"
+                            th:text="${#messages.msg('priority.' + priority)}"></option>
+                </select>
+            </div>
+            <div class="col-3">
+                <p class="d-flex justify-content-center">Wykonawca</p>
+                <select th:field="*{assignee}"
+                        class="form-control">
+
+                    <option th:value="${null}" th:text="#{assignee.placeholder}"></option>
+                    <option th:each="person : ${people}"
+                            th:value="${person.id}"
+                            th:text="${person.name}"></option>
+                </select>
+            </div>
+            <div class="col-3">
+                <p class="d-flex justify-content-center">Status</p>
+                <select th:field="*{state}"
+                        th:class="'form-control ' + ${#fields.hasErrors('state') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('state')}"
+                           th:errors="*{state}"></small>
+
+                    <option th:value="${null}" th:text="#{state.placeholder}"></option>
+                    <option th:each="state : ${states}"
+                            th:value="${state}"
+                            th:text="${#messages.msg('state.' + state)}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="mt-4 d-grid gap-2">
+            <button type="submit" class="btn btn-primary" th:text="Zapisz"></button>
+            <a th:href="@{'/issue/'}"
+               th:text="Anuluj"
+               class="btn btn-primary"></a>
+        </div>
+    </form>
+</section>
+</body>
+</html>

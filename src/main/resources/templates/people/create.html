@@ -32,7 +32,7 @@
                                type="text"
                                th:field="*{username}"
                                placeholder="Username"
-                               th:class="form-control + ${#fields.hasErrors('username') ? 'is-invalid' : ''}"/>
+                               th:class="'form-control ' + ${#fields.hasErrors('username') ? 'is-invalid' : ''}">
 
                         <small class="text-danger"
                                th:if="${#fields.hasErrors('username')}"
@@ -51,7 +51,7 @@
                            type="text"
                            th:field="*{name}"
                            placeholder="Imię i nazwisko"
-                           th:class="form-control + ${#fields.hasErrors('name') ? 'is-invalid' : ''}"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('name') ? 'is-invalid' : ''}">
 
                     <small class="text-danger"
                            th:if="${#fields.hasErrors('name')}"
@@ -67,7 +67,11 @@
                            type="text"
                            th:field="*{mail}"
                            placeholder="Email"
-                           class="form-control"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('mail') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('mail')}"
+                           th:errors="*{mail}"></small>
                 </div>
             </div>
             <div class="mb-3">
@@ -79,7 +83,11 @@
                            type="number"
                            th:field="*{phone}"
                            placeholder="Numer telefonu"
-                           class="form-control"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('phone') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('phone')}"
+                           th:errors="*{phone}"></small>
                 </div>
             </div>
 
@@ -92,7 +100,11 @@
                            type="password"
                            th:field="*{password}"
                            placeholder="Hasło"
-                           class="form-control"/>
+                           th:class="'form-control ' + ${#fields.hasErrors('password') ? 'is-invalid' : ''}">
+
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('password')}"
+                           th:errors="*{password}"></small>
                 </div>
             </div>
             <div class="mb-3">
@@ -121,20 +133,13 @@
                     </label>
                 </p>
             </div>
-            <!--            <p>-->
-            <!--                <label>Roles:-->
-            <!--                    <input type="checkbox" name="roles"-->
-            <!--                           th:each="role : ${allAuthorities}"-->
-            <!--                           th:text="${role.name}"-->
-            <!--                           th:value="${role.id}"-->
-            <!--                           th:field="*{authorities}"-->
-            <!--                    />-->
-            <!--                </label>-->
-            <!--            </p>-->
         </div>
 
         <div>
             <button type="submit" class="btn btn-primary" th:text="Zapisz"></button>
+            <a th:href="@{'/people/'}"
+               th:text="Anuluj"
+               class="btn btn-primary"></a>
         </div>
     </form>
 </section>
