@@ -55,6 +55,7 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     Type type = Type.BUG;
 
-
+    @Column(nullable = false)
+    Boolean enable = true;
 
 }

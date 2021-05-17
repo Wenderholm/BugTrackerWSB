@@ -15,7 +15,11 @@ public class IssueFilter {
     State state;
     Project project;
     Person assignee;
+    Issue enable;
 
+    private Specification<Issue> isEnable(){
+        return (issueRoot, query, builder) -> builder.equal(issueRoot.get("enable"), enable);
+    }
 
     private Specification<Issue> hasState() {
         return (issueRoot, query, builder) -> builder.equal(issueRoot.get("state"), state);
@@ -33,7 +37,7 @@ public class IssueFilter {
         Specification<Issue> spec = Specification.where(null);
 
         if (project != null) {
-            spec = spec.and(hasProject());
+            spec = spec.and(hasProject().and(isEnable()));
         }
 
         if (assignee != null) {

@@ -38,7 +38,10 @@
 
                 <div class="row">
                     <div class="col-md-6 mt-5">
-                        <input type="submit" class="btn btn-primary" value="Update User">
+                        <input type="submit" class="btn btn-primary" th:value="#{update.applyChange}">
+                        <a th:href="@{'/'}"
+                           th:text="#{update.cancel}"
+                           class="btn btn-primary"></a>
                     </div>
                 </div>
             </form>

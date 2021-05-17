@@ -18,7 +18,7 @@
 <body>
 <section class="container">
     <h2 class=" mt-4 mb-5 d-flex justify-content-center">AKTUALIZACJA ZGŁOSZENIA</h2>
-    <form th:action="@{/issue/save}" th:object="${issue}" method="post">
+    <form th:action="@{/issue/update/{id}(id=${issue.id})}" th:object="${issue}" method="post">
         <div class="form-row col-12">
             <div class="form-group col-md-3">
                 <select th:field="*{project}"
@@ -51,11 +51,11 @@
                           th:field="*{content}"
                           placeholder="Opis"
                           rows="6"
-                          th:class="'form-control ' + ${#fields.hasErrors('title') ? 'is-invalid' : ''}">
+                          th:class="'form-control ' + ${#fields.hasErrors('content') ? 'is-invalid' : ''}">
                 </textarea>
                 <small class="text-danger"
-                       th:if="${#fields.hasErrors('title')}"
-                       th:errors="*{title}"></small>
+                       th:if="${#fields.hasErrors('content')}"
+                       th:errors="*{content}"></small>
             </div>
         </div>
         <div class="form-row col-12">
