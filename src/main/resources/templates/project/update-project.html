@@ -13,10 +13,10 @@
 </head>
 <body>
 <section class="container">
-    <h2 class="mb-5">Update Project</h2>
+    <h2 class=" mt-4 mb-5 d-flex justify-content-center">AKTUALIZACJA PROJEKTU</h2>
     <div class="row">
         <div class="col-md-6">
-            <form action="#" th:action="@{/project/update/{id}(id=${project.id})}" th:object="${project}" method="post">
+            <form  th:action="@{/project/update/{id}(id=${project.id})}" th:object="${project}" method="post">
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label for="name" class="col-form-label">Nazwa</label>
@@ -38,7 +38,10 @@
 
                 <div class="row">
                     <div class="col-md-6 mt-5">
-                        <input type="submit" class="btn btn-primary" value="Update User">
+                        <input type="submit" class="btn btn-primary" th:value="#{update.applyChange}">
+                        <a th:href="@{'/'}"
+                           th:text="#{update.cancel}"
+                           class="btn btn-primary"></a>
                     </div>
                 </div>
             </form>

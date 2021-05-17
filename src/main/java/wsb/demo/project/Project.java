@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,17 +26,23 @@ public class Project {
     @GeneratedValue
     Long id;
 
-    @Column(nullable = false)
+    @NotEmpty
+    @Column(nullable = false, unique = true)
     String name;
+
 
     @Column(nullable = false)
     Boolean enable = true;
 
 //    Set<Issue> issues = new HashSet<>();
 
+    @NotEmpty
+    @Size(min =3, max=10)
     @Column(nullable = false)
     String code;
 
+    @NotEmpty
+    @Size(min =3, max=100)
     @Column(nullable = false)
     String description;
 

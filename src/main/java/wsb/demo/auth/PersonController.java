@@ -39,16 +39,23 @@ public class PersonController {
         modelAndView.addObject("person", new Person());
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
         modelAndView.addObject("allAuthorities", authorities);
+//        modelAndView.addObject("allAuthorities", authorityRepository.findAll());
+
         return modelAndView;
     }
 
     @PostMapping(value = "/save")
     @Secured("ROLE_CREATE_USER")
-    ModelAndView createNewUser(@Valid @ModelAttribute Person person) {
+    ModelAndView createNewUser(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
+        if(bindingResult.hasErrors()){
+            modelAndView.setViewName("people/create");
+            List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+            modelAndView.addObject("allAuthorities", authorities);
+//            modelAndView.addObject("allAuthorities", authorityRepository.findAll());
+            return modelAndView;
+        }
         personService.savePerson(person);
-        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
-        modelAndView.addObject("allAuthorities", authorities);
         modelAndView.setViewName("redirect:/people/");
         return modelAndView;
     }
@@ -81,7 +88,6 @@ public class PersonController {
     @Secured("ROLE_CREATE_USER")
     ModelAndView deleteUser(@PathVariable("id") long id, Person person) {
         ModelAndView modelAndView = new ModelAndView();
-//        personRepository.delete(personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
         personService.softDelete(personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
         modelAndView.setViewName("redirect:/people/");
         return modelAndView;
