@@ -12,13 +12,15 @@ import wsb.demo.project.Project;
 @Setter
 @NoArgsConstructor
 public class IssueFilter {
+
+
     State state;
     Project project;
     Person assignee;
     Issue enable;
 
     private Specification<Issue> isEnable(){
-        return (issueRoot, query, builder) -> builder.equal(issueRoot.get("enable"), enable);
+        return (issueRoot, query, builder) -> builder.equal(issueRoot.get("enable"), true);
     }
 
     private Specification<Issue> hasState() {
@@ -37,7 +39,7 @@ public class IssueFilter {
         Specification<Issue> spec = Specification.where(null);
 
         if (project != null) {
-            spec = spec.and(hasProject().and(isEnable()));
+            spec = spec.and(hasProject());
         }
 
         if (assignee != null) {

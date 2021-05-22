@@ -12,6 +12,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("isAdmin",true);
+//        model.add("person", Person);
         return INDEX_VIEW_NAME;
     }
 
