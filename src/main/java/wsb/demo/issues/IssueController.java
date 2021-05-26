@@ -58,6 +58,11 @@ public class IssueController {
     @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView createNewProject(@ModelAttribute @Valid Issue issue, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("projects", projectRepository.findByEnable(true));
+        modelAndView.addObject("people", personRepository.findByEnable(true));
+        modelAndView.addObject("states", State.values());
+        modelAndView.addObject("types", Type.values());
+        modelAndView.addObject("priorities", Priority.values());
         if(bindingResult.hasErrors()){
             modelAndView.setViewName("issue/issue-create");
             return modelAndView;
