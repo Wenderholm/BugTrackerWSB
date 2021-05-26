@@ -23,10 +23,10 @@
                 <a disa th:href="@{'/issue/'}" th:text="Zgłoszenia" class="btn btn-default" ></a>
             </li>
             <li class="nav-item">
-                <a th:href="@{'/project/'}" th:text="Projekty" class="btn btn-default"></a>
+                <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:href="@{'/project/'}" th:text="Projekty" class="btn btn-default"></a>
             </li>
             <li class="nav-item ">
-                <a th:href="@{'/people/'}" th:text="Użytkownicy" class="btn btn-default"></a>
+                <a th:if="${#authorization.expression('hasRole(''ROLE_USERS_TAB'')')}" th:href="@{'/people/'}" th:text="Użytkownicy" class="btn btn-default"></a>
             </li>
 <!--            <li class="nav-item">-->
 <!--                <a class="nav-link" href="#">Link</a>-->

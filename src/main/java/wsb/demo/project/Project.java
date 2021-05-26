@@ -34,7 +34,6 @@ public class Project {
     @Column(nullable = false)
     Boolean enable = true;
 
-//    Set<Issue> issues = new HashSet<>();
 
     @NotEmpty
     @Size(min =3, max=10)

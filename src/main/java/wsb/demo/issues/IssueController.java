@@ -1,5 +1,6 @@
 package wsb.demo.issues;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +34,7 @@ public class IssueController {
     @GetMapping
     ModelAndView index(@ModelAttribute IssueFilter issueFilter) {
         ModelAndView modelAndView = new ModelAndView("issue/index");
-        modelAndView.addObject("issues", issueService.findAllEnableIssue(issueFilter.buildQuery()));
-//        modelAndView.addObject("issues", issueRepository.findAll(issueFilter.buildQuery()));
+        modelAndView.addObject("issues", issueRepository.findAll(issueFilter.buildQuery()));
         modelAndView.addObject("projects", projectRepository.findAll());
         modelAndView.addObject("people", personRepository.findAll());
         modelAndView.addObject("states", State.values());
@@ -42,7 +42,7 @@ public class IssueController {
         return modelAndView;
     }
     @GetMapping("/create")
-//    @Secured("ROLE_MANAGE_PROJECT")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("issue/issue-create");
         modelAndView.addObject("projects", projectRepository.findByEnable(true));
@@ -55,7 +55,7 @@ public class IssueController {
     }
 
     @PostMapping(value = "/save")
-//    @Secured("ROLE_MANAGE_PROJECT")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView createNewProject(@ModelAttribute @Valid Issue issue, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         if(bindingResult.hasErrors()){
@@ -68,7 +68,7 @@ public class IssueController {
     }
 
     @GetMapping("/edit/{id}")
-//    @Secured("ROLE_MANAGE_PROJECT")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView showUpdateForm(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("issue/update-issue");
         modelAndView.addObject("issue", issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
@@ -81,7 +81,7 @@ public class IssueController {
     }
 
     @PostMapping("/update/{id}")
-//    @Secured("ROLE_MANAGE_PROJECT")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView updateUser(@PathVariable("id") long id, @Valid Issue issue, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("issue/update-issue");
         modelAndView.addObject("issue", issue);
@@ -100,7 +100,7 @@ public class IssueController {
         return modelAndView;
     }
     @GetMapping("/delete/{id}")
-//    @Secured("ROLE_CREATE_USER")
+    @Secured("ROLE_CREATE_USER")
     ModelAndView deleteIssue(@PathVariable("id") long id, Issue issue) {
         ModelAndView modelAndView = new ModelAndView();
         issueService.softDelete(issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));

@@ -50,13 +50,12 @@
                     th:value="${state}"
                     th:text="${#messages.msg('state.' + state)}"></option>
         </select>
-        <button class="btn btn-primary ml-2" type="submit" th:text="#{common.search}"></button>
         <a th:href="@{/issue}" th:text="#{common.clear}" class="btn btn-default"></a>
 
-        <a th:href="@{'/issue/create'}" th:text="${'Nowe Zgłoszenie'}" class="btn btn-primary"></a>
+        <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:href="@{'/issue/create'}" th:text="${'Nowe Zgłoszenie'}" class="btn btn-primary"></a>
         <a th:href="@{'/'}"
            th:text="Wróć"
-           class="btn btn-primary"></a>
+           class="ml-5 btn btn-primary"></a>
 
     </form>
     <div th:each="issue : ${issues}">
@@ -88,7 +87,7 @@
                         <span class="badge badge-success" th:text="${#messages.msg('state.' + issue.state)}"></span>
                     </div>
                 </div>
-                <div class="row justify-content-end ">
+                <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" class="row justify-content-end ">
                     <div class="col-2 ">
                         <a th:href="@{/issue/edit/{id}(id=${issue.id})}" class="btn btn-primary">
                             <i class="fas fa-user-edit ml-2"></i>
