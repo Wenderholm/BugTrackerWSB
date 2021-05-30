@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layouts/layoutLoggedInIssue}"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://ultraq.github.io/thymeleaf-layout-dialect">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title th:text="#{application.name}"></title>
-
-    <link rel="shortcut icon" href="/images/favicon.png">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
-            crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet"
-          type="text/css"/>
 </head>
 <body>
-<section class="container">
-    <h2 class=" mt-4 mb-5 d-flex justify-content-center">DODAWANIE ZGŁOSZENIA</h2>
+<section layout:fragment="content" class="container">
+    <h2 class=" mt-4 mb-5 d-flex justify-content-center" th:text="#{issue.addIssue}">DODAWANIE ZGŁOSZENIA</h2>
     <form th:action="@{/issue/save}" th:object="${issue}" method="post" novalidate>
         <div class="form-row col-12">
             <div class="form-group col-md-3">
@@ -31,25 +21,22 @@
                     Please select a valid state.
                 </div>
             </div>
-            <div class="form-group col-md-7">
+            <div class="form-group col-md-9">
                 <input id="title"
                        type="text"
                        th:field="*{title}"
-                       placeholder="Tytuł"
+                       th:placeholder="#{issue.title}"
                        th:class="'form-control ' + ${#fields.hasErrors('title') ? 'is-invalid' : ''}">
 
                 <small class="text-danger"
                        th:if="${#fields.hasErrors('title')}"
                        th:errors="*{title}"></small>
             </div>
-            <div class="form-group col-md-2">
-                <button type="submit" class="btn btn-default">Update</button>
-            </div>
             <div class="form-group col-12">
                 <textarea id="content"
                           type="text"
                           th:field="*{content}"
-                          placeholder="Opis"
+                          th:placeholder="#{issue.desc}"
                           rows="6"
                           th:class="'form-control ' + ${#fields.hasErrors('content') ? 'is-invalid' : ''}">
                 </textarea>
@@ -60,7 +47,7 @@
         </div>
         <div class="form-row col-12">
             <div class="col-3">
-                <p class="d-flex justify-content-center">Typ</p>
+                <p class="d-flex justify-content-center" th:text="#{issue.type}"></p>
                 <select th:field="*{type}"
                         class="form-control">
 
@@ -71,7 +58,7 @@
                 </select>
             </div>
             <div class="col-3">
-                <p class="d-flex justify-content-center">Priorytet</p>
+                <p class="d-flex justify-content-center" th:text="#{issue.priority}"></p>
                 <select th:field="*{priority}"
                         class="form-control">
 
@@ -82,7 +69,7 @@
                 </select>
             </div>
             <div class="col-3">
-                <p class="d-flex justify-content-center">Wykonawca</p>
+                <p class="d-flex justify-content-center" th:text="#{issue.contractor}">></p>
                 <select th:field="*{assignee}"
                         th:class="'form-control ' + ${#fields.hasErrors('assignee') ? 'is-invalid' : ''}">
 
@@ -97,7 +84,7 @@
                 </select>
             </div>
             <div class="col-3">
-                <p class="d-flex justify-content-center">Status</p>
+                <p class="d-flex justify-content-center" th:text="#{issue.status}">Status</p>
                 <select th:field="*{state}"
                         th:class="'form-control ' + ${#fields.hasErrors('state') ? 'is-invalid' : ''}">
 
@@ -113,9 +100,9 @@
             </div>
         </div>
         <div class="mt-4 d-grid gap-2">
-            <button type="submit" class="btn btn-primary" th:text="Zapisz"></button>
+            <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
             <a th:href="@{'/issue/'}"
-               th:text="Anuluj"
+               th:text="#{common.cancel}"
                class="btn btn-primary"></a>
         </div>
     </form>
