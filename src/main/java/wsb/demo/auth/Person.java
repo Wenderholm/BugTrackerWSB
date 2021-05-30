@@ -22,6 +22,7 @@ import java.util.Set;
 @UniqueUsername
 public class Person {
 
+
     @Id
     @GeneratedValue
     Long id;

@@ -1,6 +1,7 @@
 package wsb.demo.config;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import wsb.demo.auth.Authority;
 import wsb.demo.auth.AuthorityName;
@@ -12,6 +13,7 @@ public class Bootstrap implements InitializingBean {
 
     private final AuthorityRepository authorityRepository;
     private final PersonService personService;
+
 
     public Bootstrap(AuthorityRepository authorityRepository, PersonService personService) {
         this.authorityRepository = authorityRepository;
@@ -29,6 +31,7 @@ public class Bootstrap implements InitializingBean {
 
     private void prepareAdmin() {
     }
+
 
     private void prepareAuthoritues() {
 

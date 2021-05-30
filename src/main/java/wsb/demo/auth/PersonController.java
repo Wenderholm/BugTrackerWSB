@@ -38,8 +38,6 @@ public class PersonController {
         modelAndView.addObject("person", new Person());
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
         modelAndView.addObject("allAuthorities", authorities);
-//        modelAndView.addObject("allAuthorities", authorityRepository.findAll());
-
         return modelAndView;
     }
 
@@ -47,7 +45,7 @@ public class PersonController {
     @Secured("ROLE_CREATE_USER")
     ModelAndView createNewUser(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             modelAndView.setViewName("people/create");
             List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
             modelAndView.addObject("allAuthorities", authorities);
@@ -62,23 +60,24 @@ public class PersonController {
     @GetMapping("/edit/{id}")
     @Secured("ROLE_CREATE_USER")
     ModelAndView showUpdateForm(@PathVariable("id") long id) {
-        ModelAndView modelAndView = new ModelAndView("people/update-user");
-        modelAndView.addObject("person", personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
-        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
-        modelAndView.addObject("allAuthorities", authorities);
+        ModelAndView modelAndView = new ModelAndView("people/show");
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe Id użytkownika: " + id));
+        modelAndView.addObject("personForm", new PersonForm(person));
+        modelAndView.addObject("allAuthorities", personService.findAuthorities());
         return modelAndView;
     }
 
     @PostMapping("/update/{id}")
     @Secured("ROLE_CREATE_USER")
-    ModelAndView updateUser(@PathVariable("id") long id, @Valid Person person, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView("people/update-user");
-        modelAndView.addObject("person",person);
+    ModelAndView updateUser(@PathVariable("id") long id, @Valid PersonForm personForm, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("people/show");
+        modelAndView.addObject("personForm", personForm);
         if (result.hasErrors()) {
-            person.setId(id);
+            personForm.setId(id);
             return modelAndView;
         }
-        personService.savePerson(person);
+        personService.savePerson(personForm);
         modelAndView.setViewName("redirect:/people/");
         return modelAndView;
     }
@@ -87,8 +86,57 @@ public class PersonController {
     @Secured("ROLE_CREATE_USER")
     ModelAndView deleteUser(@PathVariable("id") long id, Person person) {
         ModelAndView modelAndView = new ModelAndView();
-        personService.softDelete(personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
+        personService.softDelete(personService.editPerson(id));
         modelAndView.setViewName("redirect:/people/");
         return modelAndView;
     }
+
+    @GetMapping("/{id}")
+    @Secured("ROLE_USERS_TAB")
+    ModelAndView showUserDetails(@ModelAttribute @PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("account/index");
+        modelAndView.addObject("allAuthorities", personService.findAuthorities());
+        modelAndView.addObject("person", personService.editPerson(id));
+        return modelAndView;
+    }
+
+    @GetMapping("/editPassword/{id}")
+    @Secured("ROLE_CREATE_USER")
+    ModelAndView showUpdatePassForm(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("people/password");
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe Id użytkownika: " + id));
+        PasswordForm passwordForm = new PasswordForm(person);
+        passwordForm.setId(id);
+        modelAndView.addObject("passwordForm", passwordForm);
+        return modelAndView;
+    }
+
+    @PostMapping("/updatePassword/{id}")
+    @Secured("ROLE_CREATE_USER")
+    ModelAndView updatePassword(@PathVariable("id") long id, @Valid PasswordForm passwordForm, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("people/password");
+        modelAndView.addObject("passwordForm", passwordForm);
+        if (result.hasErrors()) {
+            passwordForm.setId(id);
+            return modelAndView;
+        }
+        personService.updatePassword(passwordForm);
+
+        modelAndView.setViewName("redirect:/people/");
+        return modelAndView;
+    }
+
+
+//    @GetMapping("/user_home")
+//    ModelAndView viewUserHome(@AuthenticationPrincipal Person person){
+//        ModelAndView modelAndView = new ModelAndView("user_home");
+//        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+//        modelAndView.addObject("allAuthorities", authorities);
+////        modelAndView.addObject("person", personService.editPerson(id));
+//        modelAndView.addObject("person", person);
+//        return modelAndView;
+//    }
+
+
 }

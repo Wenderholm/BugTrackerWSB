@@ -20,13 +20,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" >
-                <a disa th:href="@{'/issue/'}" th:text="Zgłoszenia" class="btn btn-default" ></a>
+                <a disa th:href="@{'/issue/'}" th:text="#{main.issues}" class="btn btn-default" ></a>
             </li>
             <li class="nav-item">
-                <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:href="@{'/project/'}" th:text="Projekty" class="btn btn-default"></a>
+                <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:href="@{'/project/'}" th:text="#{main.projects}" class="btn btn-default"></a>
             </li>
             <li class="nav-item ">
-                <a th:if="${#authorization.expression('hasRole(''ROLE_USERS_TAB'')')}" th:href="@{'/people/'}" th:text="Użytkownicy" class="btn btn-default"></a>
+                <a th:if="${#authorization.expression('hasRole(''ROLE_USERS_TAB'')')}" th:href="@{'/people/'}" th:text="#{main.users}" class="btn btn-default"></a>
+            </li>
+            <li class="nav-item ">
+                <a th:href="@{'/people/user_home'}" th:text="#{main.account}" class="btn btn-default"></a>
             </li>
 
         </ul>

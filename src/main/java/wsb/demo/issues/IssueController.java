@@ -5,11 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import wsb.demo.auth.Person;
 import wsb.demo.auth.PersonRepository;
 import wsb.demo.enums.Priority;
 import wsb.demo.enums.State;
 import wsb.demo.enums.Type;
+import wsb.demo.mial.Mail;
+import wsb.demo.mial.MailService;
 import wsb.demo.project.ProjectRepository;
 
 import javax.validation.Valid;
@@ -22,13 +23,15 @@ public class IssueController {
     private final ProjectRepository projectRepository;
     private final PersonRepository personRepository;
     private final IssueService issueService;
+    private final MailService mailService;
 
 
-    public IssueController(IssueRepository issueRepository, ProjectRepository projectRepository, PersonRepository personRepository, IssueService issueService) {
+    public IssueController(IssueRepository issueRepository, ProjectRepository projectRepository, PersonRepository personRepository, IssueService issueService, MailService mailService) {
         this.issueRepository = issueRepository;
         this.projectRepository = projectRepository;
         this.personRepository = personRepository;
         this.issueService = issueService;
+        this.mailService = mailService;
     }
 
     @GetMapping
@@ -56,7 +59,7 @@ public class IssueController {
 
     @PostMapping(value = "/save")
     @Secured("ROLE_MANAGE_PROJECT")
-    ModelAndView createNewProject(@ModelAttribute @Valid Issue issue, BindingResult bindingResult) {
+    ModelAndView createNewProject(@ModelAttribute @Valid Issue issue, BindingResult bindingResult, Mail mail) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("projects", projectRepository.findByEnable(true));
         modelAndView.addObject("people", personRepository.findByEnable(true));
@@ -67,6 +70,8 @@ public class IssueController {
             modelAndView.setViewName("issue/issue-create");
             return modelAndView;
         }
+        mailService.sendToAssignee(issue);
+
         issueRepository.save(issue);
         modelAndView.setViewName("redirect:/issue/");
         return modelAndView;

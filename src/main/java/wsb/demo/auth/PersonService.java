@@ -1,12 +1,14 @@
 package wsb.demo.auth;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -48,6 +50,22 @@ public class PersonService {
         personRepository.save(person);
     }
 
+
+    public void updatePassword(PasswordForm passwordForm) {
+        Person person = personRepository.findById(passwordForm.id).orElse(null);
+        String pass = bCryptPasswordEncoder.encode(passwordForm.password);
+        person.setPassword(pass);
+        personRepository.save(person);
+    }
+
+    public void savePerson(PersonForm personForm){
+        Person person = personRepository.findById(personForm.id).orElse(null);
+        person.username = personForm.username;
+        person.name = personForm.name;
+        person.mail = personForm.mail;
+        personRepository.save(person);
+    }
+
     public void softDelete(Person person){
         person.setEnable(false);
         personRepository.save(person);
@@ -56,6 +74,22 @@ public class PersonService {
     List<Person> findAllUsers() {
         return personRepository.findAll();
     }
+
+    protected List<Authority> findAuthorities() {
+        return (List<Authority>) authorityRepository.findAll();
+    }
+    protected Person editPerson(Long id){
+        return personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe Id użytkownika: " + id));
+    }
+
+
+
+
+//    private Long getCurrentName(){
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getDetails();
+//        return principal.
+//    }
 
 
 }
