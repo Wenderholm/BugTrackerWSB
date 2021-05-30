@@ -18,17 +18,82 @@
 </head>
 <body>
 <section class="container">
-    <div>
-        <h1>Welcome to your home</h1>
-    </div>
-    <div>
-        <form >
-            <p>
-                <label>Nazwa zawodnika</label>
-<!--                <input type="text" th:value="${}">-->
-            </p>
-        </form>
-    </div>
+
+    <h2 class="row">
+        <div class="inner">
+            <label th:text="#{people.details}"></label>
+        </div>
+    </h2>
+
+    <form th:object="${person}">
+        <div class="row-cols-1">
+            <div class="mb-3">
+                <div>
+                    <label for="username"
+                           class="form-label"
+                           th:text="#{people.username}"></label>
+                </div>
+                <div>
+                    <input id="username"
+                           type="text"
+                           th:field="*{username}"
+                           class="form-control"
+                           disabled/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label for="name"
+                           class="form-label"
+                           th:text="#{people.name}"></label>
+                </div>
+                <div>
+                    <input id="name"
+                           type="text"
+                           th:field="*{name}"
+                           class="form-control"
+                           disabled/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label for="name"
+                           class="form-label"
+                           th:text="#{people.email}"></label>
+                </div>
+                <div>
+                    <input id="email"
+                           type="text"
+                           th:field="*{mail}"
+                           class="form-control"
+                           disabled/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <h5 for="roles"
+                        class="form-label"
+                        th:text="#{people.authorities}"></h5>
+                </div>
+                <div th:each="auth: ${allAuthorities}">
+                    <input id="roles"
+                           type="checkbox"
+                           th:value="${auth.id}"
+                           th:field="*{authorities}"
+                           disabled/>
+                    <label th:text="#{${'authorities.' + auth.name}}"></label>
+                </div>
+            </div>
+        </div>
+        <div class="inner pull-right">
+            <a class="btn btn-secondary"
+               th:href="@{'/'}"
+               th:text="#{common.cancel}"></a>
+            <a class="btn btn-success"
+               th:text="#{common.edit}"
+               th:href="@{edit/{id}(id=${person.id})}"></a>
+        </div>
+    </form>
 </section>
 </body>
 </html>

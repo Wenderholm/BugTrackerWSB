@@ -1,12 +1,14 @@
 package wsb.demo.auth;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -128,15 +130,13 @@ public class PersonController {
     }
 
 
-//    @GetMapping("/user_home")
-//    ModelAndView viewUserHome(@AuthenticationPrincipal Person person){
-//        ModelAndView modelAndView = new ModelAndView("user_home");
-//        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
-//        modelAndView.addObject("allAuthorities", authorities);
-////        modelAndView.addObject("person", personService.editPerson(id));
-//        modelAndView.addObject("person", person);
-//        return modelAndView;
-//    }
+    @GetMapping("/user_home")
+    ModelAndView viewUserHome(@AuthenticationPrincipal Person person, Principal principal){
+        ModelAndView modelAndView = new ModelAndView("user_home");
+        modelAndView.addObject("allAuthorities", personService.findAuthorities());
+        modelAndView.addObject("person", personService.currentUser(principal.getName()));
+        return modelAndView;
+    }
 
 
 }

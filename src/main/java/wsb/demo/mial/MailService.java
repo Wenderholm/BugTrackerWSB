@@ -40,7 +40,7 @@ public class MailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setTo(issue.getAssignee().getMail());
             mimeMessageHelper.setSubject(issue.getTitle());
-            mimeMessageHelper.setText("Zgłoszenie zostało utworzone, zapoznaj się z jego szczegółami pod adresem: " + " https://www.ADRES_APLIKACJI.pl");
+            mimeMessageHelper.setText("Zgłoszenie zostało utworzone dotyczy: " + issue.getContent() + "wiecej informacji pod adresem https://www.ADRES_APLIKACJI.pl ");
             javaMailSender.send(mimeMessage);
         } catch (Exception e) {
             System.out.println("Wysyłanie nie powiodło się " + e);

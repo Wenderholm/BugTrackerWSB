@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class PersonService {
         }
 
         System.out.println("Tworzymy administratora: " + myAdminUsername + "...");
-        Person person = new Person(myAdminUsername, myAdminPassword, "Admin",true,"admin@admin.pl", "777666111");
+        Person person = new Person(myAdminUsername, myAdminPassword, "Admin", true, "admin@admin.pl", "777666111");
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
         person.setAuthorities(new HashSet<>(authorities));
         savePerson(person);
@@ -58,7 +59,7 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    public void savePerson(PersonForm personForm){
+    public void savePerson(PersonForm personForm) {
         Person person = personRepository.findById(personForm.id).orElse(null);
         person.username = personForm.username;
         person.name = personForm.name;
@@ -66,7 +67,7 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    public void softDelete(Person person){
+    public void softDelete(Person person) {
         person.setEnable(false);
         personRepository.save(person);
     }
@@ -78,18 +79,14 @@ public class PersonService {
     protected List<Authority> findAuthorities() {
         return (List<Authority>) authorityRepository.findAll();
     }
-    protected Person editPerson(Long id){
+
+    protected Person editPerson(Long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe Id użytkownika: " + id));
     }
 
-
-
-
-//    private Long getCurrentName(){
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getDetails();
-//        return principal.
-//    }
-
+    public Person currentUser(String username){
+        return personRepository.findByUsername(username);
+    }
 
 }
