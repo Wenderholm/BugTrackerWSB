@@ -47,13 +47,13 @@ public class PersonController {
     @Secured("ROLE_CREATE_USER")
     ModelAndView createNewUser(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
+        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+        modelAndView.addObject("authorities", authorities);
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("people/create");
-            List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
-            modelAndView.addObject("allAuthorities", authorities);
-//            modelAndView.addObject("allAuthorities", authorityRepository.findAll());
             return modelAndView;
         }
+
         personService.savePerson(person);
         modelAndView.setViewName("redirect:/people/");
         return modelAndView;
@@ -66,7 +66,8 @@ public class PersonController {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe Id użytkownika: " + id));
         modelAndView.addObject("personForm", new PersonForm(person));
-        modelAndView.addObject("allAuthorities", personService.findAuthorities());
+        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+        modelAndView.addObject("authorities", authorities);
         return modelAndView;
     }
 
@@ -81,6 +82,15 @@ public class PersonController {
         }
         personService.savePerson(personForm);
         modelAndView.setViewName("redirect:/people/");
+        return modelAndView;
+    }
+
+    @GetMapping("/user_home")
+    ModelAndView viewUserHome(@AuthenticationPrincipal Person person, Principal principal){
+        ModelAndView modelAndView = new ModelAndView("user_home");
+        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+        modelAndView.addObject("authorities", authorities);
+        modelAndView.addObject("person", personService.currentUser(principal.getName()));
         return modelAndView;
     }
 
@@ -130,13 +140,7 @@ public class PersonController {
     }
 
 
-    @GetMapping("/user_home")
-    ModelAndView viewUserHome(@AuthenticationPrincipal Person person, Principal principal){
-        ModelAndView modelAndView = new ModelAndView("user_home");
-        modelAndView.addObject("allAuthorities", personService.findAuthorities());
-        modelAndView.addObject("person", personService.currentUser(principal.getName()));
-        return modelAndView;
-    }
+
 
 
 }

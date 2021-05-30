@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layouts/layoutLoggedInIssue}"
+      lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://ultraq.github.io/thymeleaf-layout-dialect">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title th:text="#{application.name}"></title>
-
-    <link rel="shortcut icon" href="/images/favicon.png">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
-            crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet"
-          type="text/css"/>
 </head>
 <body>
 
-<section class="container">
+<section layout:fragment="content" class="container">
     <h3 th:text="#{nav.issues}" class="mt-4 mb-5 d-flex justify-content-center"></h3>
 
     <form th:action="@{/issue}" th:object="${filter}"
@@ -52,10 +42,10 @@
         </select>
         <a th:href="@{/issue}" th:text="#{common.clear}" class="btn btn-default"></a>
 
-        <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:href="@{'/issue/create'}" th:text="${'Nowe Zgłoszenie'}" class="btn btn-primary"></a>
-        <a th:href="@{'/'}"
-           th:text="Wróć"
-           class="ml-5 btn btn-primary"></a>
+        <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:href="@{'/issue/create'}" th:text="#{issue.newIssue}" class="btn btn-primary"></a>
+<!--        <a th:href="@{'/'}"-->
+<!--           th:text="Wróć"-->
+<!--           class="ml-5 btn btn-primary"></a>-->
 
     </form>
     <div th:each="issue : ${issues}">
@@ -90,10 +80,10 @@
                 <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" class="row justify-content-end ">
                     <div class="col-2 ">
                         <a th:href="@{/issue/edit/{id}(id=${issue.id})}" class="btn btn-primary">
-                            <i class="fas fa-user-edit ml-2"></i>
+                            <i class="fas fa-edit"></i>
                         </a>
-                        <a th:href="@{/issue/delete/{id}(id=${issue.id})}" class="btn btn-primary"><i
-                                class="fas fa-user-times ml-2"></i></a>
+                        <a th:href="@{/issue/delete/{id}(id=${issue.id})}" class="btn btn-danger"><i
+                                class="fas fa-times "></i></a>
                     </div>
                 </div>
 
