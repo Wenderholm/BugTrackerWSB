@@ -23,8 +23,6 @@ public class IssueFilter {
         return (issueRoot, query, builder) -> builder.equal(issueRoot.get("enable"), true);
     }
 
-
-
     private Specification<Issue> hasState() {
         return (issueRoot, query, builder) -> builder.equal(issueRoot.get("state"), state);
     }

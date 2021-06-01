@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long>, JpaSpecificationExecutor<Issue> {
     List<Issue> findByEnable(Boolean enable);
+    List<Issue> findByAssigneeName(String username);
 }

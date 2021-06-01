@@ -14,6 +14,7 @@ import wsb.demo.mial.MailService;
 import wsb.demo.project.ProjectRepository;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/issue")
@@ -34,14 +35,15 @@ public class IssueController {
         this.mailService = mailService;
     }
 
-    @GetMapping
-    ModelAndView index(@ModelAttribute IssueFilter issueFilter) {
-        ModelAndView modelAndView = new ModelAndView("issue/index");
+    @GetMapping("/")
+    ModelAndView index(@ModelAttribute IssueFilter issueFilter, Principal principal) {
+        ModelAndView modelAndView = new ModelAndView("/issue/index");
         modelAndView.addObject("issues", issueRepository.findAll(issueFilter.buildQuery()));
         modelAndView.addObject("projects", projectRepository.findAll());
         modelAndView.addObject("people", personRepository.findAll());
         modelAndView.addObject("states", State.values());
         modelAndView.addObject("filter", issueFilter);
+        modelAndView.addObject("logUser", principal.getName());
         return modelAndView;
     }
     @GetMapping("/create")
@@ -78,7 +80,7 @@ public class IssueController {
     }
 
     @GetMapping("/edit/{id}")
-    @Secured("ROLE_MANAGE_PROJECT")
+    @Secured({"ROLE_MANAGE_PROJECT","ROLE_OWNER"})
     ModelAndView showUpdateForm(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("issue/update-issue");
         modelAndView.addObject("issue", issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));
@@ -91,7 +93,7 @@ public class IssueController {
     }
 
     @PostMapping("/update/{id}")
-    @Secured("ROLE_MANAGE_PROJECT")
+    @Secured({"ROLE_MANAGE_PROJECT","ROLE_OWNER"})
     ModelAndView updateUser(@PathVariable("id") long id, @Valid Issue issue, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("issue/update-issue");
         modelAndView.addObject("issue", issue);
@@ -110,7 +112,7 @@ public class IssueController {
         return modelAndView;
     }
     @GetMapping("/delete/{id}")
-    @Secured("ROLE_CREATE_USER")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView deleteIssue(@PathVariable("id") long id, Issue issue) {
         ModelAndView modelAndView = new ModelAndView();
         issueService.softDelete(issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id)));

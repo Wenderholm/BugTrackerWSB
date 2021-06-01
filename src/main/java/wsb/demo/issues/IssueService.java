@@ -26,8 +26,11 @@ public class IssueService {
         this.entityManager = entityManager;
     }
 
+
     public void softDelete(Issue issue){
         issue.setEnable(false);
         issueRepository.save(issue);
     }
+
+
 }
