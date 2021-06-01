@@ -13,18 +13,18 @@
         <tr>
             <th th:text="#{people.username}"></th>
             <th th:text="#{people.name}"></th>
-            <th th:if="${#authorization.expression('hasRole(''ROLE_CREATE_USER'')')}" th:text="#{common.edit}"></th>
-            <th th:if="${#authorization.expression('hasRole(''ROLE_DELETE_USER'')')}" th:text="#{common.delete}"></th>
+            <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}" th:text="#{common.edit}"></th>
+            <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}" th:text="#{common.delete}"></th>
         </tr>
         </thead>
         <tr th:each="person : ${people}">
 
             <td th:text="${person.username}"></td>
             <td th:text="${person.name}"></td>
-            <td th:if="${#authorization.expression('hasRole(''ROLE_CREATE_USER'')')}">
+            <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}">
                 <a th:href="@{/people/edit/{id}(id=${person.id})}" class="btn btn-primary"><i
                     class="fas fa-user-edit ml-2"></i></a></td>
-            <td th:if="${#authorization.expression('hasRole(''ROLE_CREATE_USER'')')}">
+            <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}">
                 <a th:href="@{/people/delete/{id}(id=${person.id})}" class="btn btn-danger"><i
                     class="fas fa-user-times ml-2"></i></a></td>
         </tr>
@@ -32,7 +32,7 @@
 
     <div>
         <a th:href="@{'/people/create/'}"
-           th:if="${#authorization.expression('hasRole(''ROLE_CREATE_USER'')')}"
+           th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}"
            th:text="#{common.add}"
            class="btn btn-primary"></a>
 

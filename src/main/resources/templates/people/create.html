@@ -106,8 +106,8 @@
                            class="form-control"/>
                 </div>
             </div>
-            <div >
-                <h2>Uprawnienia</h2>
+            <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}">
+                <h2 th:text="#{common.authority}"></h2>
                 <p th:each="authority: ${authorities}">
                     <input type="checkbox"
                            name="authorities"

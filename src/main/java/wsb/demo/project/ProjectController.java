@@ -21,7 +21,6 @@ public class ProjectController {
     }
 
     @GetMapping("/")
-    @Secured("ROLE_MANAGE_PROJECT")
     public ModelAndView index(){
         ModelAndView modelAndView = new ModelAndView("project/index");
         modelAndView.addObject("project",projectRepository.findByEnable(true));

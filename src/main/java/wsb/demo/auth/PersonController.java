@@ -34,17 +34,17 @@ public class PersonController {
     }
 
     @GetMapping("/create")
-    @Secured("ROLE_CREATE_USER")
+    @Secured("ROLE_MANAGE_USER")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("people/create");
         modelAndView.addObject("person", new Person());
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
-        modelAndView.addObject("allAuthorities", authorities);
+        modelAndView.addObject("authorities", authorities);
         return modelAndView;
     }
 
     @PostMapping(value = "/save")
-    @Secured("ROLE_CREATE_USER")
+    @Secured("ROLE_MANAGE_USER")
     ModelAndView createNewUser(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
@@ -60,7 +60,7 @@ public class PersonController {
     }
 
     @GetMapping("/edit/{id}")
-    @Secured("ROLE_CREATE_USER")
+    @Secured({"ROLE_MANAGE_USER","ROLE_OWNER"})
     ModelAndView showUpdateForm(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("people/show");
         Person person = personRepository.findById(id)
@@ -72,7 +72,7 @@ public class PersonController {
     }
 
     @PostMapping("/update/{id}")
-    @Secured("ROLE_CREATE_USER")
+    @Secured({"ROLE_MANAGE_USER","ROLE_OWNER"})
     ModelAndView updateUser(@PathVariable("id") long id, @Valid PersonForm personForm, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("people/show");
         modelAndView.addObject("personForm", personForm);
@@ -95,7 +95,7 @@ public class PersonController {
     }
 
     @GetMapping("/delete/{id}")
-    @Secured("ROLE_CREATE_USER")
+    @Secured("ROLE_MANAGE_USER")
     ModelAndView deleteUser(@PathVariable("id") long id, Person person) {
         ModelAndView modelAndView = new ModelAndView();
         personService.softDelete(personService.editPerson(id));
@@ -113,7 +113,7 @@ public class PersonController {
 //    }
 
     @GetMapping("/editPassword/{id}")
-    @Secured("ROLE_CREATE_USER")
+    @Secured({"ROLE_MANAGE_USER","ROLE_OWNER"})
     ModelAndView showUpdatePassForm(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("people/password");
         Person person = personRepository.findById(id)
@@ -125,7 +125,7 @@ public class PersonController {
     }
 
     @PostMapping("/updatePassword/{id}")
-    @Secured("ROLE_CREATE_USER")
+    @Secured({"ROLE_MANAGE_USER","ROLE_OWNER"})
     ModelAndView updatePassword(@PathVariable("id") long id, @Valid PasswordForm passwordForm, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("people/password");
         modelAndView.addObject("passwordForm", passwordForm);

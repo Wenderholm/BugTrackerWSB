@@ -15,29 +15,31 @@
             <th th:text="#{project.name}"></th>
             <th th:text="#{project.description}"></th>
             <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:text="#{common.edit}"></th>
-            <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}" th:text="#{common.delete}"></th>
+            <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
+                th:text="#{common.delete}"></th>
         </tr>
         </thead>
         <tr th:each="proj : ${project}">
             <td th:text="${proj.name}"></td>
             <td th:text="${proj.description}"></td>
             <td><a th:if="${proj.id} and ${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
-                    th:href="@{/project/edit/{id}(id=${proj.id})}" class="btn btn-primary"><i
+                   th:href="@{/project/edit/{id}(id=${proj.id})}" class="btn btn-primary"><i
                     class="fas fa-edit "></i></a></td>
             <td><a th:if="${proj.id} and ${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
-                    th:href="@{/project/delete/{id}(id=${proj.id})}" class="btn btn-danger"><i
+                   th:href="@{/project/delete/{id}(id=${proj.id})}" class="btn btn-danger"><i
                     class="fas fa-times "></i></a></td>
         </tr>
     </table>
 
     <div>
-        <a th:href="@{'/project/create/'}"
+        <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USER'')')}"
+           th:href="@{'/project/create/'}"
            th:text="#{common.add}"
            class="btn btn-primary"></a>
 
-<!--        <a th:href="@{'/'}"-->
-<!--           th:text="Wróć"-->
-<!--           class="btn btn-primary"></a>-->
+        <!--        <a th:href="@{'/'}"-->
+        <!--           th:text="Wróć"-->
+        <!--           class="btn btn-primary"></a>-->
 
     </div>
 </section>
