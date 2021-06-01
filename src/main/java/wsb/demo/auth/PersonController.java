@@ -103,14 +103,14 @@ public class PersonController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}")
-    @Secured("ROLE_USERS_TAB")
-    ModelAndView showUserDetails(@ModelAttribute @PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("account/index");
-        modelAndView.addObject("allAuthorities", personService.findAuthorities());
-        modelAndView.addObject("person", personService.editPerson(id));
-        return modelAndView;
-    }
+//    @GetMapping("/{id}")
+//    @Secured("ROLE_USERS_TAB")
+//    ModelAndView showUserDetails(@ModelAttribute @PathVariable("id") Long id) {
+//        ModelAndView modelAndView = new ModelAndView("account/index");
+//        modelAndView.addObject("allAuthorities", personService.findAuthorities());
+//        modelAndView.addObject("person", personService.editPerson(id));
+//        return modelAndView;
+//    }
 
     @GetMapping("/editPassword/{id}")
     @Secured("ROLE_CREATE_USER")

@@ -76,6 +76,10 @@ public class Person {
         this.username = username;
         this.name = name;
     }
+    public Boolean canBeEditedBy(String username) {
+        return this.username.equals(username);
+    }
+
 
     public void setPassword(String password) {
         this.password = password;
