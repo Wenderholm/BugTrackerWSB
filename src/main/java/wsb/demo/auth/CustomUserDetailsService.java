@@ -38,7 +38,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails buildUserDetails(Person person) {
-        // TODO: Pobierz uprawnienia użytkownika
         List<GrantedAuthority> authorities = getUserAuthorities(person);
         return new User(person.username, person.password, authorities);
     }

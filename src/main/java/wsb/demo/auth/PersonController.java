@@ -1,5 +1,6 @@
 package wsb.demo.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,8 @@ import java.util.List;
 @RequestMapping("/people")
 public class PersonController {
 
-    private final PersonService personService;
-    private final PersonRepository personRepository;
+    private PersonService personService;
+    private PersonRepository personRepository;
     private final AuthorityRepository authorityRepository;
 
     public PersonController(PersonService personService, PersonRepository personRepository, AuthorityRepository authorityRepository) {

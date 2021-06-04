@@ -22,7 +22,7 @@ public class PasswordForm {
 
     boolean isValid;
 
-    @AssertTrue(message = "passVeryfi field should be equal than pass field")
+    @AssertTrue(message = "passVerify field should be equal than pass field")
     public boolean isValid(){
         if (password == null)
             return false;
@@ -31,6 +31,7 @@ public class PasswordForm {
         else
             return this.password.equals(this.passwordAgain);
     }
+
 
     public PasswordForm(Person person){
         this.password = person.password;

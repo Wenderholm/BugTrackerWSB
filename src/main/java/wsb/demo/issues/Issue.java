@@ -58,4 +58,8 @@ public class Issue {
     @Column(nullable = false)
     Boolean enable = true;
 
+    public Issue(@NotEmpty @Size(min = 5, max = 50) String title, @NotEmpty @Size(min = 5, max = 250) String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

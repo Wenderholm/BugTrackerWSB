@@ -9,5 +9,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Person findByUsername(String username);
     List<Person> findByEnable(Boolean enable);
 
+
+
 }
 

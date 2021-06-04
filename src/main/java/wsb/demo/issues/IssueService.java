@@ -2,6 +2,7 @@ package wsb.demo.issues;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.expression.Lists;
 import wsb.demo.auth.Person;
 import wsb.demo.enums.State;
 import wsb.demo.project.Project;
@@ -26,6 +27,9 @@ public class IssueService {
         this.entityManager = entityManager;
     }
 
+    List<Issue> findAllIssue() {
+        return issueRepository.findAll();
+    }
 
     public void softDelete(Issue issue){
         issue.setEnable(false);

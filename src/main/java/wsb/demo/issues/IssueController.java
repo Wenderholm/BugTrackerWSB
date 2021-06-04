@@ -1,5 +1,7 @@
 package wsb.demo.issues;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,17 +17,16 @@ import wsb.demo.project.ProjectRepository;
 
 import javax.validation.Valid;
 import java.security.Principal;
-
+@Getter
+@Setter
 @Controller
 @RequestMapping("/issue")
 public class IssueController {
-
     private final IssueRepository issueRepository;
     private final ProjectRepository projectRepository;
     private final PersonRepository personRepository;
     private final IssueService issueService;
     private final MailService mailService;
-
 
     public IssueController(IssueRepository issueRepository, ProjectRepository projectRepository, PersonRepository personRepository, IssueService issueService, MailService mailService) {
         this.issueRepository = issueRepository;

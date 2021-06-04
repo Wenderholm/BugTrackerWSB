@@ -3,11 +3,10 @@ package wsb.demo.auth;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +14,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class PersonForm {
-
-
     Long id;
 
     @NotEmpty
@@ -25,7 +22,11 @@ public class PersonForm {
     @NotEmpty
     String name;
 
+    Boolean isValid;
+
+
     @NotEmpty
+    @Email
     String mail;
 
     @NotEmpty
@@ -33,10 +34,7 @@ public class PersonForm {
     @Column(nullable = false)
     String phone;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "person_authorities",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+
     Set<Authority> authorities = new HashSet<>();
 
     public PersonForm(Person person) {
@@ -47,5 +45,4 @@ public class PersonForm {
         this.phone = person.phone;
         this.authorities = person.authorities;
     }
-
 }
