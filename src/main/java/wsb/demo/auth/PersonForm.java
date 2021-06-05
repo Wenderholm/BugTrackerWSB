@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import wsb.demo.validators.UniqueUsername;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -13,7 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@UniqueUsername
 public class PersonForm {
+
+
     Long id;
 
     @NotEmpty
@@ -24,13 +28,12 @@ public class PersonForm {
 
     Boolean isValid;
 
-
     @NotEmpty
     @Email
     String mail;
 
     @NotEmpty
-    @Size(min =5, max=10)
+    @Size(min = 5, max = 10)
     @Column(nullable = false)
     String phone;
 

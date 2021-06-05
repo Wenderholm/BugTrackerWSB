@@ -75,6 +75,9 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    Person ona (String username){
+        return personRepository.findByUsername(username);
+    }
 
     protected List<Authority> findAuthorities() {
         return (List<Authority>) authorityRepository.findAll();

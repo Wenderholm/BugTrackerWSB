@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PasswordsValidator.class)
+@Constraint(validatedBy = {PasswordsValidator.class,ValidEditPasswordsValidator.class})
 public @interface ValidPasswords {
     String message() default "{passwords.not.valid}";
     Class<?>[] groups() default {};

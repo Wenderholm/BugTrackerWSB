@@ -1,20 +1,21 @@
 package wsb.demo.validators;
 
-import wsb.demo.auth.Person;
+import wsb.demo.auth.PasswordForm;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PasswordsValidator implements ConstraintValidator<ValidPasswords, Person> {
+public class ValidEditPasswordsValidator implements ConstraintValidator<ValidPasswords, PasswordForm> {
+
     @Override
     public void initialize(ValidPasswords constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
-    public boolean isValid(Person person, ConstraintValidatorContext ctx) {
-        if (person.getPassword() == null || person.getPassword().equals("")) {
-            if (person.getId() == null) {
+    public boolean isValid(PasswordForm passwordForm, ConstraintValidatorContext ctx) {
+        if (passwordForm.getPassword() == null || passwordForm.getPassword().equals("")) {
+            if (passwordForm.getId() == null) {
                 ctx.disableDefaultConstraintViolation();
                 ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
                         .addPropertyNode("password")
@@ -22,16 +23,12 @@ public class PasswordsValidator implements ConstraintValidator<ValidPasswords, P
 
                 return false;
             }
-
             return true;
         }
-
-        boolean passwordsAreValid = person.getPassword().equals(person.getRepeatedPassword());
-
+        boolean passwordsAreValid = passwordForm.getPassword().equals(passwordForm.getPasswordAgain());
         if (passwordsAreValid) {
             return true;
         } else {
-
             ctx.disableDefaultConstraintViolation();
             ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
                     .addPropertyNode("passwordAgain")
@@ -40,4 +37,5 @@ public class PasswordsValidator implements ConstraintValidator<ValidPasswords, P
             return false;
         }
     }
+
 }
