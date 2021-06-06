@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -60,8 +61,9 @@ public class PersonService {
         person.username = personForm.username;
         person.name = personForm.name;
         person.mail = personForm.mail;
-        if (personForm.authorities.size() != 0){
-            person.authorities = personForm.authorities;}
+        if (personForm.authorities.size() != 0) {
+            person.authorities = personForm.authorities;
+        }
 //        person.authorities = personForm.authorities;
         personRepository.save(person);
     }
@@ -75,7 +77,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    Person ona (String username){
+    Person ona(String username) {
         return personRepository.findByUsername(username);
     }
 
@@ -88,8 +90,13 @@ public class PersonService {
                 .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe Id użytkownika: " + id));
     }
 
-    public Person currentUser(String username){
+    public Person currentUser(String username) {
         return personRepository.findByUsername(username);
+    }
+
+
+    public Optional<Person> findPersonById(Long id) {
+        return personRepository.findById(id);
     }
 
 }
