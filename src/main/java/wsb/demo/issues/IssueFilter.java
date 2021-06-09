@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 import wsb.demo.auth.Person;
 import wsb.demo.enums.State;
+import wsb.demo.enums.Type;
 import wsb.demo.project.Project;
 
 @Getter
@@ -13,7 +14,7 @@ import wsb.demo.project.Project;
 @NoArgsConstructor
 public class IssueFilter {
 
-
+    Type type;
     State state;
     Project project;
     Person assignee;
@@ -35,6 +36,10 @@ public class IssueFilter {
         return (issueRoot, query, builder) -> builder.equal(issueRoot.get("assignee"), assignee);
     }
 
+    private Specification<Issue> hasType() {
+        return (issueRoot, query, builder) -> builder.equal(issueRoot.get("type"), type);
+    }
+
     public Specification<Issue> buildQuery() {
         Specification<Issue> spec = Specification.where(isEnable());
 
@@ -48,6 +53,10 @@ public class IssueFilter {
 
         if (state != null) {
             spec = spec.and(hasState());
+        }
+
+        if (type != null) {
+            spec = spec.and(hasType());
         }
 
         return spec;
