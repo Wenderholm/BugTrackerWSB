@@ -34,7 +34,7 @@ public class PasswordsValidator implements ConstraintValidator<ValidPasswords, P
 
             ctx.disableDefaultConstraintViolation();
             ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
-                    .addPropertyNode("passwordAgain")
+                    .addPropertyNode("repeatedPassword")
                     .addConstraintViolation();
 
             return false;

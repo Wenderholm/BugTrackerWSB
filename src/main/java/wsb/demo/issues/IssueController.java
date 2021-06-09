@@ -43,6 +43,7 @@ public class IssueController {
         modelAndView.addObject("projects", projectRepository.findAll());
         modelAndView.addObject("people", personRepository.findAll());
         modelAndView.addObject("states", State.values());
+        modelAndView.addObject("types", Type.values());
         modelAndView.addObject("filter", issueFilter);
         modelAndView.addObject("logUser", principal.getName());
         return modelAndView;

@@ -40,6 +40,14 @@
                     th:value="${state}"
                     th:text="${#messages.msg('state.' + state)}"></option>
         </select>
+        <select th:field="*{type}"
+                class="form-control ml-2"
+                onchange="this.form.submit()">
+            <option th:value="${null}" th:text="#{type.placeholder}"></option>
+            <option th:each="type : ${types}"
+                    th:value="${type}"
+                    th:text="${#messages.msg('type.' + type)}"></option>
+        </select>
         <a th:href="@{/issue/}" th:text="#{common.clear}" class="btn btn-default"></a>
 
         <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
